@@ -34,7 +34,7 @@ class WebPageItem {
 
 	public ViewGroup getPageView() {
 		if (pageview == null) {
-			pageview = new FrameLayout(WebPager.appcontext);
+			pageview = new FrameLayout(Utils.getAppContext());
 		}
 		return pageview;
 	}

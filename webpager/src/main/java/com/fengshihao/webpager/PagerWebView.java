@@ -16,9 +16,6 @@ import java.util.List;
 class PagerWebView extends WebView {
 
 	private static List<PagerWebView> pool = new LinkedList<>();
-	private static WebChromeClient sWebChromeClient = new PagerChromeClient();
-	private static WebViewClient sWebViewClient = new PagerWebViewClient();
-
 	private PagerWebView(Context context) {
 		super(context);
 	}
@@ -32,6 +29,7 @@ class PagerWebView extends WebView {
 		removeAllJs();
 		setWebChromeClient(new WebChromeClient());
 		setWebViewClient(new WebViewClient());
+		removeAllViews();
 		loadUrl("about:blank");
 		clearHistory();
 		restoreState(new Bundle());
@@ -46,7 +44,7 @@ class PagerWebView extends WebView {
 	static PagerWebView obtain() {
 		PagerWebView w = null;
 		if (pool.isEmpty()) {
-			w = new PagerWebView(WebPager.appcontext);
+			w = new PagerWebView(Utils.getAppContext());
 		} else {
 			w = pool.remove(0);
 		}
@@ -55,8 +53,7 @@ class PagerWebView extends WebView {
 	}
 
 	private void init() {
-		setWebChromeClient(sWebChromeClient);
-		setWebViewClient(sWebViewClient);
+
 	}
 
 	void stop() {

@@ -1,5 +1,6 @@
 package com.fengshihao.webpager;
 
+import android.annotation.TargetApi;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -25,13 +26,14 @@ final class WebPagerAdapter extends PagerAdapter {
 			return;
 		}
 		WebPageItem item = new WebPageItem(url);
-		item.setActive(true);
+		//item.setActive(true);
 		history.add(item);
 		notifyDataSetChanged();
 	}
 
 	WebPageItem getItem(int position) {
 		if (position < 0 || position >= history.size()) {
+			Log.e(TAG, "getItem: wrong position = " + position + " history size " + history.size());
 			return null;
 		}
 		return history.get(position);
@@ -75,6 +77,7 @@ final class WebPagerAdapter extends PagerAdapter {
 		return item.getPageView() == v;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Object instantiateItem(View container, int position) {
 		Log.d(TAG, "1-instantiateItem");
