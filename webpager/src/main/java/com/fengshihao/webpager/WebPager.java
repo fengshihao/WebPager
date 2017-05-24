@@ -1,10 +1,12 @@
 package com.fengshihao.webpager;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 
 /**
  * Created by shihao on 17-5-22.
@@ -12,26 +14,22 @@ import android.util.Log;
 
 public class WebPager extends ViewPager {
 	private static String TAG = "WebPager";
-	static Context appcontext;
 
 	private WebPagerAdapter adapter;
+	private PagerWebViewClient pagerWebViewClient;
+	private PagerChromeClient pagerChromeClient;
 	public WebPager(Context context) {
 		super(context);
 		init(context);
+		pagerWebViewClient = new PagerWebViewClient(this);
+		pagerChromeClient = new PagerChromeClient(this);
+
 	}
 
 	public WebPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		appcontext = null;
-		Log.d(TAG, "onDetachedFromWindow() called");
-	}
-
 
 	private OnPageChangeListener changeListener = new OnPageChangeListener() {
 		@Override
@@ -64,9 +62,12 @@ public class WebPager extends ViewPager {
 	}
 
 	private boolean atLastPage() {
-		return getAdapter().getCount() - 1 == getCurrentItem();
+		int count = getAdapter().getCount();
+		return count == 0 || count - 1 == getCurrentItem();
 	}
+
 	public void loadUrl(String url) {
+		Log.d(TAG, "loadUrl() called with: url = [" + url + "]");
 		if (!atLastPage()) {
 			adapter.cutFrom(getCurrentItem());
 		} else {
@@ -75,10 +76,18 @@ public class WebPager extends ViewPager {
 	}
 
 	private void init(Context context) {
-		if (appcontext == null) {
-			appcontext = context.getApplicationContext();
-		}
+		Utils.setApplicationContext(context.getApplicationContext());
 		adapter = new WebPagerAdapter();
 		setAdapter(adapter);
+	}
+
+	WebChromeClient chromeClient;
+	public void setChromeClient(WebChromeClient cc) {
+		chromeClient = cc;
+	}
+
+	WebViewClient webviewClient;
+	public void setWebViewClient(WebViewClient wvc) {
+		webviewClient = wvc;
 	}
 }
