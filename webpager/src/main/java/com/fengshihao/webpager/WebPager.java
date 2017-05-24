@@ -2,7 +2,6 @@ package com.fengshihao.webpager;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -64,9 +63,11 @@ public class WebPager extends ViewPager {
 	}
 
 	private boolean atLastPage() {
-		return getAdapter().getCount() - 1 == getCurrentItem();
+		int count = getAdapter().getCount();
+		return count == 0 || count - 1 == getCurrentItem();
 	}
 	public void loadUrl(String url) {
+		Log.d(TAG, "loadUrl() called with: url = [" + url + "]");
 		if (!atLastPage()) {
 			adapter.cutFrom(getCurrentItem());
 		} else {

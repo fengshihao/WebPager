@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
-import android.webkit.WebHistoryItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,10 +46,11 @@ final class WebPagerAdapter extends PagerAdapter {
 
 
 	void cutFrom(int position) {
+		Log.d(TAG, "cutFrom() called with: position = [" + position + "]"
+			+ "history size = " + history.size());
 		if (position < 0 || position >= history.size() - 1) {
 			return;
 		}
-		Log.d(TAG, "cutFrom() called with: position = [" + position + "]");
 
 		history = new LinkedList<>(history.subList(0, position + 1));
 		Log.d(TAG, "after cutFrom history size=" + history.size());
