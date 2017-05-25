@@ -1,6 +1,7 @@
 package com.fengshihao.webpager;
 
 import android.annotation.TargetApi;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,13 @@ final class WebPagerAdapter extends PagerAdapter {
 	private static final String TAG = "WebPagerAdapter";
 
 	private List<WebPageItem> history = new LinkedList<>();
+	private PagerChromeClient pagerChromeClient;
+	private PagerWebViewClient pagerWebViewClient;
+
+	WebPagerAdapter(@NonNull PagerWebViewClient pwc, @NonNull PagerChromeClient pcc) {
+		pagerWebViewClient = pwc;
+		pagerChromeClient = pcc;
+	}
 
 	void addItem(String url) {
 		Log.d(TAG, "addItem() called with: url = [" + url + "]");
@@ -25,8 +33,7 @@ final class WebPagerAdapter extends PagerAdapter {
 			Log.w(TAG, "addItem try to add one invalid url=" + url);
 			return;
 		}
-		WebPageItem item = new WebPageItem(url);
-		//item.setActive(true);
+		WebPageItem item = new WebPageItem(url, pagerWebViewClient, pagerChromeClient);
 		history.add(item);
 		notifyDataSetChanged();
 	}
@@ -94,7 +101,7 @@ final class WebPagerAdapter extends PagerAdapter {
 		Log.d(TAG,
 			"initItem position=" + position + " page size=" + container.getChildCount());
 		WebPageItem d = getItem(position);
-		container.addView(d.getPageView());
+		d.attach(container);
 		return d;
 	}
 
@@ -102,6 +109,6 @@ final class WebPagerAdapter extends PagerAdapter {
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		Log.d(TAG, "destroyItem() called with: container = [" + container + "], position = [" + position + "], object = [" + object + "]");
 		WebPageItem item = (WebPageItem) object;
-		item.destroyPageView();
+		item.detach(container);
 	}
 }

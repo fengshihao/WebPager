@@ -21,9 +21,6 @@ public class WebPager extends ViewPager {
 	public WebPager(Context context) {
 		super(context);
 		init(context);
-		pagerWebViewClient = new PagerWebViewClient(this);
-		pagerChromeClient = new PagerChromeClient(this);
-
 	}
 
 	public WebPager(Context context, AttributeSet attrs) {
@@ -34,18 +31,20 @@ public class WebPager extends ViewPager {
 	private OnPageChangeListener changeListener = new OnPageChangeListener() {
 		@Override
 		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+			Log.d(TAG, "onPageScrolled() called with: position = [" + position
+				+ "], positionOffset = [" + positionOffset
+				+ "], positionOffsetPixels = [" + positionOffsetPixels + "]");
 		}
 
 		@Override
 		public void onPageSelected(int position) {
 			Log.d(TAG, "onPageSelected() called with: position = [" + position + "]");
-			adapter.onItemActive(position);
+			//adapter.onItemActive(position);
 		}
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
-
+			Log.d(TAG, "onPageScrollStateChanged() called with: state = [" + state + "]");
 		}
 	};
 
@@ -76,8 +75,10 @@ public class WebPager extends ViewPager {
 	}
 
 	private void init(Context context) {
+		pagerWebViewClient = new PagerWebViewClient(this);
+		pagerChromeClient = new PagerChromeClient(this);
 		Utils.setApplicationContext(context.getApplicationContext());
-		adapter = new WebPagerAdapter();
+		adapter = new WebPagerAdapter(pagerWebViewClient, pagerChromeClient);
 		setAdapter(adapter);
 	}
 
