@@ -65,12 +65,14 @@ public class WebPager extends ViewPager {
 		return count == 0 || count - 1 == getCurrentItem();
 	}
 
+
 	public void loadUrl(String url) {
 		Log.d(TAG, "loadUrl() called with: url = [" + url + "]");
 		if (!atLastPage()) {
 			adapter.cutFrom(getCurrentItem());
 		}
 		adapter.addItem(url);
+		goTo(1);
 	}
 
 	private void init(Context context) {

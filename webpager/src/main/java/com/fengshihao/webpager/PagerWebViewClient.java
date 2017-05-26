@@ -73,9 +73,9 @@ final class PagerWebViewClient extends WebViewClient {
 			return false;
 		}
 		mLastRequestTime = System.currentTimeMillis();
-		Log.d(TAG, "**getUrl() " + view.getUrl());
-		Log.d(TAG, "**getOriginalUrl() " + view.getOriginalUrl());
-		Log.d(TAG, "**url " + url);
+//		Log.d(TAG, "**getUrl() " + view.getUrl());
+//		Log.d(TAG, "**getOriginalUrl() " + view.getOriginalUrl());
+//		Log.d(TAG, "**url " + url);
 		if (URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url)) {
 			if (!isUserClick(view)) {
 				Log.d(TAG, "handleUrlLoading checkIfRedirectRequest is true processed by webview.");

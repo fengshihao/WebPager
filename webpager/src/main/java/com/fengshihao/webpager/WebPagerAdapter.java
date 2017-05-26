@@ -76,9 +76,7 @@ final class WebPagerAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		int ret = history.size();
-		Log.d(TAG, "getCount ret=" + ret);
-		return ret;
+		return history.size();
 	}
 
 	@Override
@@ -101,8 +99,9 @@ final class WebPagerAdapter extends PagerAdapter {
 	}
 
 	public Object initItem(ViewGroup container, int position) {
-		Log.d(TAG,
-			"initItem position=" + position + " page size=" + container.getChildCount());
+		Log.d(TAG, "initItem position=" + position
+				+ " pagesize=" + container.getChildCount()
+				+ " items=" + history.size());
 		WebPageItem d = getItem(position);
 		d.attach(container);
 		return d;
@@ -110,7 +109,7 @@ final class WebPagerAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		Log.d(TAG, "destroyItem() called with: container = [" + container + "], position = [" + position + "], object = [" + object + "]");
+		Log.d(TAG, "destroyItem() called with: position = [" + position + "], object = [" + object + "]");
 		WebPageItem item = (WebPageItem) object;
 		item.detach(container);
 	}

@@ -19,6 +19,6 @@ public class MainActivity extends AppCompatActivity {
 		LinearLayout f = (LinearLayout)findViewById(R.id.container);
 		WebPager wp = new WebPager(this);
 		f.addView(wp);
-		wp.loadUrl("http://www.baidu.com");
+		wp.loadUrl("http://wanmeishijiexiaoshuo.org/book/15.html");
 	}
 }
