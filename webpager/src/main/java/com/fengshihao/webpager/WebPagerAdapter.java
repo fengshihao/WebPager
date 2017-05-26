@@ -70,12 +70,15 @@ final class WebPagerAdapter extends PagerAdapter {
 	public int getItemPosition(Object object) {
 		int ret = history.indexOf(object);
 		Log.d(TAG, "getItemPosition ret=" + ret);
-		return ret;
+		// We can not return -1 directly because it means POSITION_UNCHANGED for PagerAdapter
+		return ret == -1 ? POSITION_NONE : ret;
 	}
 
 	@Override
 	public int getCount() {
-		return history.size();
+		int ret = history.size();
+		Log.d(TAG, "getCount ret=" + ret);
+		return ret;
 	}
 
 	@Override

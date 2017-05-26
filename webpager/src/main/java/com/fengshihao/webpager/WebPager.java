@@ -69,9 +69,8 @@ public class WebPager extends ViewPager {
 		Log.d(TAG, "loadUrl() called with: url = [" + url + "]");
 		if (!atLastPage()) {
 			adapter.cutFrom(getCurrentItem());
-		} else {
-			adapter.addItem(url);
 		}
+		adapter.addItem(url);
 	}
 
 	private void init(Context context) {
