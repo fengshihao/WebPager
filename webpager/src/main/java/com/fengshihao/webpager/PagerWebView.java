@@ -1,8 +1,8 @@
 package com.fengshihao.webpager;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -14,11 +14,16 @@ import java.util.List;
  */
 
 class PagerWebView extends WebView {
-
+	private static String TAG = "PagerWebView";
 	private static List<PagerWebView> pool = new LinkedList<>();
 	private PagerWebView(Context context) {
 		super(context);
+		getSettings().setUserAgentString(WebPager.sUserAgentString);
 	}
+
+	// TODO: 17-5-27 shihao
+	// disable pool for now
+	private static boolean usingPool = false;
 
 	private void removeAllJs() {
 		// TODO: 17-5-23 shihao
@@ -30,15 +35,23 @@ class PagerWebView extends WebView {
 		setWebChromeClient(new WebChromeClient());
 		setWebViewClient(new WebViewClient());
 		removeAllViews();
-		loadUrl("about:blank");
 		clearHistory();
-		restoreState(new Bundle());
+		if (!usingPool) {
+			destroy();
+		}
+	}
+
+	private boolean clearHistoryAfterPageFinished;
+	public void setClearHistoryFlag(boolean clear) {
+		clearHistoryAfterPageFinished = clear;
 	}
 
 
 	void recycle() {
 		reset();
-		pool.add(this);
+		if (usingPool) {
+			pool.add(this);
+		}
 	}
 
 	static PagerWebView obtain() {
@@ -53,6 +66,20 @@ class PagerWebView extends WebView {
 	}
 
 	private void init() {
+		final WebSettings setting = getSettings();
+		setting.setJavaScriptEnabled(true);
+		setting.setSupportZoom(false);
+		setting.setSupportMultipleWindows(true);
+		setting.setSupportZoom(false);
+		setting.setBuiltInZoomControls(false);
+		setting.setSupportMultipleWindows(true);
+		setting.setJavaScriptCanOpenWindowsAutomatically(true);
+		setting.setDomStorageEnabled(true);
+		setting.setNeedInitialFocus(false);
+		setting.setGeolocationEnabled(true);
+		setting.setAllowFileAccess(true);
+		setFocusable(true);
+		setFocusableInTouchMode(true);
 
 	}
 

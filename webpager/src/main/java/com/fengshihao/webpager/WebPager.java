@@ -3,6 +3,7 @@ package com.fengshihao.webpager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.WebChromeClient;
@@ -15,9 +16,11 @@ import android.webkit.WebViewClient;
 public class WebPager extends ViewPager {
 	private static String TAG = "WebPager";
 
+	static String sUserAgentString;
 	private WebPagerAdapter adapter;
 	private PagerWebViewClient pagerWebViewClient;
 	private PagerChromeClient pagerChromeClient;
+
 	public WebPager(Context context) {
 		super(context);
 		init(context);
@@ -26,6 +29,12 @@ public class WebPager extends ViewPager {
 	public WebPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
+	}
+
+	public static void setUserAgent(String ua) {
+		if (TextUtils.isEmpty(ua)) return;
+		Log.d(TAG, "setUserAgent() called with: ua = [" + ua + "]");
+		sUserAgentString = ua;
 	}
 
 	private OnPageChangeListener changeListener = new OnPageChangeListener() {

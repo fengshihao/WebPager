@@ -50,6 +50,7 @@ final class PagerWebViewClient extends WebViewClient {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		Log.d(TAG, "shouldOverrideUrlLoading() called with: url = [" + url + "]");
 		if (pager.webviewClient != null) {
 			if (pager.webviewClient.shouldOverrideUrlLoading(view, url)) {
 				return true;
