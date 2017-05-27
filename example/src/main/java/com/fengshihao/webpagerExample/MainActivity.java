@@ -24,17 +24,12 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		initView();
-	}
-
-	private void initView() {
-		LinearLayout f = (LinearLayout)findViewById(R.id.container);
 		WebPager wp = new WebPager(this);
 		wp.setUserAgent(makeUserAgent(UA_TYPE.MOBILE));
-		f.addView(wp);
 		wp.loadUrl("http://m.baidu.com");
+		setContentView(wp);
 	}
+
 
 	public static enum UA_TYPE {
 		MOBILE, TABLET, PC

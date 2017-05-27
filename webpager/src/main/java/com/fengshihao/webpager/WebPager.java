@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
  * Created by shihao on 17-5-22.
  */
 
-public class WebPager extends ViewPager {
+public class WebPager extends CustomViewPager {
 	private static String TAG = "WebPager";
 
 	static String sUserAgentString;
