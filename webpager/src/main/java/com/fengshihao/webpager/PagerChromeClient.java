@@ -3,6 +3,7 @@ package com.fengshihao.webpager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
@@ -17,6 +18,8 @@ import android.webkit.WebView;
  * Created by shihao on 17-5-23.
  */
 class PagerChromeClient extends WebChromeClient {
+	private static String TAG = "PagerChromeClient";
+
 	WebPager pager;
 	PagerChromeClient(WebPager pager) {
 		super();
@@ -110,6 +113,12 @@ class PagerChromeClient extends WebChromeClient {
 
 	@Override
 	public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+		if (consoleMessage.messageLevel() == ConsoleMessage.MessageLevel.DEBUG) {
+			Log.d(TAG, "onConsoleMessage " + consoleMessage.sourceId() + " "
+				+ consoleMessage.lineNumber() + ":" + consoleMessage.message()) ;
+			return true;
+		}
+
 		return super.onConsoleMessage(consoleMessage);
 	}
 

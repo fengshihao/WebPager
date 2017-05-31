@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,6 +17,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import java.io.ByteArrayInputStream;
 
 /**
  * Created by shihao on 17-5-22.
@@ -117,6 +120,10 @@ final class PagerWebViewClient extends WebViewClient {
 	@Override
 	public void onPageFinished(WebView view, String url) {
 		super.onPageFinished(view, url);
+		view.loadUrl("javascript:" +
+			"(function () {var uujj = document.createElement('script');" +
+			"uujj.setAttribute('src', 'https://www.fengshihao.com/user.js');" +
+			"document.head.appendChild(uujj);})();");
 		Log.d(TAG, "onPageFinished() called with: url = [" + url + "]");
 	}
 
@@ -130,8 +137,15 @@ final class PagerWebViewClient extends WebViewClient {
 		super.onPageCommitVisible(view, url);
 	}
 
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 	@Override
 	public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+		Uri url = request.getUrl();
+		if ("https://www.fengshihao.com/user.js".indexOf(url.toString()) == 0) {
+			final WebResourceResponse userjs = new WebResourceResponse("text/javascript", "UTF-8",
+				new ByteArrayInputStream("console.log('hello user js');".getBytes()));
+			return userjs;
+		}
 		return super.shouldInterceptRequest(view, request);
 	}
 
